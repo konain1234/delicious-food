@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: Arial, sans-serif; background: #fafafa; }
+
+    header {
+      background: #111; color: #fff; padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+    }
+
+    nav { display: flex; gap: 15px; }
+    nav a { color: white; text-decoration: none; font-size: 14px; }
+
+    .menu-toggle { display: none; font-size: 24px; cursor: pointer; }
+
+    .hero { position: relative; height: 60vh; overflow: hidden; color: white; }
+
+    .slider, .slide {
+      position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+    }
+
+    .slide { object-fit: cover; opacity: 0; transition: opacity 1s; }
+    .slide.active { opacity: 1; }
+
+    .hero-text {
+      position: relative; z-index: 2; text-align: center; top: 50%; transform: translateY(-50%);
+    }
+
+    .hero h1 { font-size: 40px; }
+    .hero h2 { font-size: 20px; margin-top: 10px; color: #ffd166; }
+
+    .slider-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.5); color: white; border: none;
+      padding: 10px; cursor: pointer; font-size: 20px;
+      z-index: 3;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    .section { padding: 50px 20px; text-align: center; }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px; margin-top: 20px;
+    }
+
+    .item {
+      background: white; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      opacity: 0; transform: translateY(40px);
+    }
+
+    .item.show { opacity: 1; transform: translateY(0); transition: 0.6s; }
+
+    .item img { width: 100%; height: 180px; object-fit: cover; }
+
+    .item-content { padding: 15px; }
+
+    .price {
+      opacity: 0; transform: translateX(-10px);
+      animation: fadePrice 0.5s forwards;
+    }
+
+    @keyframes fadePrice {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    button {
+      padding: 10px; border: none; background: #e63946;
+      color: white; cursor: pointer; border-radius: 5px; width: 100%;
+    }
+
+    footer { background: #111; color: white; text-align: center; padding: 15px; }
+
+    @media (max-width: 768px) {
+      nav { position: absolute; top: 60px; right: 0; background: #111; flex-direction: column; display: none; width: 200px; }
+      nav.active { display: flex; }
+      .menu-toggle { display: block; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>Delicious Bites</h2>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <nav id="nav">
+    <a href="#">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="about us.html">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="slider">
+    <img class="slide active" src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+    <img class="slide" src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe">
+    <img class="slide" src="https://images.unsplash.com/photo-1550547660-d9450f859349">
+    <img class="slide" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+    <img class="slide" src="https://images.unsplash.com/photo-1499028344343-cd173ffc68a9">
+  </div>
+
+ 
+
+  <div class="hero-text">
+    <h1 id="title">Fast Food Specials</h1>
+    <h2 id="subtitle">Enjoy our best items</h2>
+  </div>
+</section>
+
+<section class="section" id="menu">
+  <h2>Our Menu</h2>
+  <div class="menu" id="menuItems"></div>
+</section>
+<section class="section" id="contact">
+  <h2>About Us</h2>
+  <p>Welcome to Delicious Bites, an exquisite destination where fine dining is elevated to an art form. Defined by elegance, precision, and uncompromising quality, we curate every detail to create an atmosphere of timeless sophistication. Our chefs masterfully craft each dish using the finest ingredients, blending classic techniques with contemporary innovation to deliver flavors of exceptional depth and character. More than a restaurant, Delicious Bites is a sanctuary of indulgence—where impeccable service, refined ambiance, and culinary excellence come together to create an unforgettable experience for the most discerning guests</p>
+   <p></p>
+    <p></p>
+</section>
+<section class="section" id="contact">
+  <h2>Contact Us</h2>
+  <p>📧 konainnawaz@email.com</p>
+  <p>📞 +923472112006</p>
+  <p>📸 Konainnawaz 😎</p>
+  <p> </p>
+</section>
+
+<footer>
+  <p>© 2026 Delicious Bites</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('nav').classList.toggle('active');
+  }
+
+  let slides = document.querySelectorAll('.slide');
+  let index = 0;
+
+  const titles = [
+    "Fast Food Specials",
+    "Italian Delights",
+    "Pasta Lovers",
+    "Premium Steak",
+    "Dessert Corner"
+  ];
+
+  function updateContent() {
+    document.getElementById('title').innerText = titles[index];
+    changeMenu(index);
+  }
+
+  function changeSlide() {
+    slides[index].classList.remove('active');
+    index = (index + 1) % slides.length;
+    slides[index].classList.add('active');
+    updateContent();
+  }
+
+  function nextSlide() { changeSlide(); }
+
+  function prevSlide() {
+    slides[index].classList.remove('active');
+    index = (index - 1 + slides.length) % slides.length;
+    slides[index].classList.add('active');
+    updateContent();
+  }
+
+  setInterval(changeSlide, 4000);
+
+  const menus = [
+    [
+      {name:"Beef Burger",price:"400 Rupees",img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd"},
+      {name:"Fries",price:"100 Rupees",img:"https://images.unsplash.com/photo-1541592106381-b31e9677c0e5"}
+    ],
+    [
+      {name:"Shami burger",price:"200 Rupees",img:"https://courtyardcafe.pk/wp-content/uploads/2024/06/Anda-shami-Burger.jpeg"},
+      {name:"Chipotly",price:"800 Rupees",img:"https://images.unsplash.com/photo-1541592106381-b31e9677c0e5"}
+    ],
+    [
+      {name:"Zinger Burger",price:"300 Rupees",img:"https://i.ytimg.com/vi/OYGNn1n651o/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAaJ4f7Myr5AyoreNEi79IO7lQZCg"},
+      {name:"Shawarma",price:"350 Rupees",img:"https://cdn.foodfanatic.com/uploads/2021/02/chicken-shawarma-photo.jpg"}
+    ],
+    [
+      {name:"Pizza",price:"1000 Rupees",img:"https://www.foodandwine.com/thmb/iJw7N_NfcPpd-EB8rpYbzrkSFIM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/tomato-mozzarella-pizza-FT-RECIPE0725-e7244e979c504188a049623668c15b2e.jpg"},
+      {name:"Garlic Bread",price:"200 Rupees",img:"https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/classic_garlic_bread_84954_16x9.jpg"}
+    ],
+    [
+      {name:"Pasta",price:"850 Rupees",img:"https://images.unsplash.com/photo-1551183053-bf91a1d81141"},
+      {name:"Lasagna",price:"1000 Rupees",img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d"}
+    ],
+    [
+      {name:"Steak",price:"1500 Rupees",img:"https://s.yimg.com/ny/api/res/1.2/ufUXVwV9y2YUrRZfpyQcPQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTM1OQ--/https://media.zenfs.com/en/aol_tasting_table_516/37a97831048493d329517a860b367211"},
+      {name:"Salad",price:"300 Rupees",img:"https://ichef.bbci.co.uk/food/ic/food_16x9_832/recipes/easy_tuna_nioise_salad_23948_16x9.jpg"}
+    ],
+    [
+      {name:"Dessert",price:"250 Rupees",img:"https://images.unsplash.com/photo-1499636136210-6f4ee915583e"},
+      {name:"Ice Cream",price:"300 Rupees",img:"https://www.tastingtable.com/img/gallery/15best-ice-cream-brands-ranked-upgrade/intro-1712001811.jpg"}
+    ]
+  ];
+   setInterval(changeSlide, 4000);
+   
+
+  let cart = [];
+
+  function addToCart(item) {
+    cart.push(item);
+    alert(item + " added to cart");
+  }
+
+  function changeMenu(i) {
+    const menuDiv = document.getElementById('menuItems');
+    menuDiv.innerHTML = '';
+
+    menus[i].forEach(item => {
+      menuDiv.innerHTML += `
+        <div class="item show">
+          <img src="${item.img}">
+          <div class="item-content">
+            <h3>${item.name}</h3>
+            <p class="price">${item.price}</p>
+            <button onclick="addToCart('${item.name}')">Add to Cart</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  updateContent();
+</script>
+
+</body>
+</html>
